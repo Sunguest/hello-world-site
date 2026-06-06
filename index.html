@@ -3,26 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Website</title>
+    <title>My GitHub YouTube Surfer</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #181818;
+            color: white;
+            margin: 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            background-color: #f0f2f5;
         }
         h1 {
-            color: #333;
-            padding: 20px;
-            background: white;
+            color: #ff0000; /* YouTube Red */
+        }
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #333;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .card {
+            background: #212121;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #383838;
+        }
+        .card:hover {
+            background: #383838;
         }
     </style>
 </head>
 <body>
-    <h1>Hello, World! Welcome to my website.</h1>
+
+    <h1>GitHub Video Surfer</h1>
+
+    <div class="video-container">
+        <div class="video-wrapper">
+            <iframe id="main-player" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <h3>Select a Video to Watch:</h3>
+    
+    <div class="grid">
+        <div class="card" onclick="changeVideo('dQw4w9WgXcQ')">Rick Astley</div>
+        <div class="card" onclick="changeVideo('jfKfPfyJRdk')">Lofi Hip Hop Radio</div>
+        <div class="card" onclick="changeVideo('tgbNymZ7vqY')">Muppets Mahna Mahna</div>
+        <div class="card" onclick="changeVideo('9bZkp7q19f0')">PSY - GANGNAM STYLE</div>
+    </div>
+
+    <script>
+        // JavaScript function to switch the video inside the iframe
+        function changeVideo(videoId) {
+            const player = document.getElementById('main-player');
+            player.src = "https://www.youtube.com/embed/" + videoId;
+        }
+    </script>
+
 </body>
 </html>
