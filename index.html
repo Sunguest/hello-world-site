@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub YouTube Surfer</title>
+    <title>My GitHub YouTube Surfer Pro</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +17,46 @@
         }
         h1 {
             color: #ff0000; /* YouTube Red */
+            margin-bottom: 10px;
         }
+        
+        /* Search Bar Styles */
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 24px;
+            border: 1px solid #3c3c3c;
+            background-color: #121212;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: #3ea6ff; /* YouTube Link Blue */
+        }
+        .search-button {
+            padding: 12px 24px;
+            border-radius: 24px;
+            border: none;
+            background-color: #cc0000;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .search-button:hover {
+            background-color: #ff0000;
+        }
+
+        /* Video Player Styles */
         .video-container {
             width: 100%;
             max-width: 800px;
@@ -37,6 +76,8 @@
             border: 2px solid #333;
             border-radius: 8px;
         }
+
+        /* Presets Grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -46,11 +87,12 @@
         }
         .card {
             background: #212121;
-            padding: 10px;
+            padding: 15px;
             border-radius: 6px;
             text-align: center;
             cursor: pointer;
             border: 1px solid #383838;
+            transition: background 0.2s;
         }
         .card:hover {
             background: #383838;
@@ -59,7 +101,13 @@
 </head>
 <body>
 
-    <h1>GitHub Video Surfer</h1>
+    <h1>GitHub Video Surfer Pro</h1>
+    <p style="color: #aaa; margin-top: 0; margin-bottom: 20px;">Paste any YouTube link or Video ID below to watch it instantly.</p>
+
+    <div class="search-container">
+        <input type="text" id="video-search" class="search-input" placeholder="Paste YouTube Link (e.g., https://www.youtube.com/watch?v=...) or Video ID">
+        <button class="search-button" onclick="loadSearchedVideo()">Load</button>
+    </div>
 
     <div class="video-container">
         <div class="video-wrapper">
@@ -67,7 +115,7 @@
         </div>
     </div>
 
-    <h3>Select a Video to Watch:</h3>
+    <h3>Quick Presets:</h3>
     
     <div class="grid">
         <div class="card" onclick="changeVideo('dQw4w9WgXcQ')">Rick Astley</div>
@@ -77,11 +125,44 @@
     </div>
 
     <script>
-        // JavaScript function to switch the video inside the iframe
+        // Core function to switch the iframe player source
         function changeVideo(videoId) {
             const player = document.getElementById('main-player');
             player.src = "https://www.youtube.com/embed/" + videoId;
         }
+
+        // Logic to extract the ID from a full link and load it
+        function loadSearchedVideo() {
+            const inputVal = document.getElementById('video-search').value.trim();
+            
+            if (!inputVal) return;
+
+            let videoId = inputVal;
+
+            // Check if the user pasted a full YouTube URL
+            if (inputVal.includes('youtube.com') || inputVal.includes('youtu.be')) {
+                // Regex pattern to extract the 11-character video ID from various YouTube URL formats
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = inputVal.match(regExp);
+                
+                if (match && match.length === 11) {
+                    videoId = match;
+                } else {
+                    alert("Could not extract a valid YouTube Video ID. Please check your link.");
+                    return;
+                }
+            }
+
+            // Load the video using the extracted ID
+            changeVideo(videoId);
+        }
+
+        // Optional: Allow pressing "Enter" key to search
+        document.getElementById('video-search').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                loadSearchedVideo();
+            }
+        });
     </script>
 
 </body>
